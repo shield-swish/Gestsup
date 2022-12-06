@@ -1,0 +1,27 @@
+version: "2.1"
+services:
+  gestsup:
+    image: gestsup:1.2
+    restart: unless-stopped
+    container_name: gestsup
+    ports:
+      - 81:80
+      - 443:443
+    depends_on:
+      - gestsup_db
+    networks:
+      - gestsup
+  gestsup_db:
+    image: mariadb:10.5
+    restart: unless-stopped
+    container_name: gestsup_db
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: gestsup
+      MYSQL_USER: gestsup
+      MYSQL_PASSWORD: admin
+    networks:
+      - gestsup
+networks:  
+  gestsup:
+    driver: bridge
